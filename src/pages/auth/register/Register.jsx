@@ -1,42 +1,67 @@
-import { Button, Card, Checkbox, Label, Select, TextInput } from "flowbite-react";
-import bcrypt from "bcryptjs-react";
+import { Button, Card, Label, Select, TextInput } from "flowbite-react";
 import swal from "sweetalert";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../../providers/AuthProvider";
+import Loading from "../../../components/reusuable/Loading";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
-    const handleSubmit = e => {
+    const { createUser } = useContext(AuthContext);
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
+    const handleSubmit = async e => {
         e.preventDefault();
         const form = e.target;
         const name = form.name.value;
         const email = form.email.value;
 
         const mobile = form.mobile.value;
-        if(isNaN(mobile)){
+        if (isNaN(mobile)) {
             swal("Error", "Invalid mobile number", "error");
             return;
-            
+
         }
 
         const nid = form.nid.value;
-        if(isNaN(nid)){
+        if (isNaN(nid)) {
             swal("Error", "Invalid NID", "error");
             return;
         }
 
-        const pinInput = form.pin.value;
-        if(isNaN(pinInput)){
+        const pin = form.pin.value;
+        if (isNaN(pin)) {
             swal("Error", "Invalid PIN", "error");
             return;
         }
 
-        const ac_type = form.ac_type.value;
-        var salt = bcrypt.genSaltSync(10);
-        let pin = bcrypt.hashSync(pinInput, salt);
-        console.log({ name, email, mobile, nid, ac_type, pin })
+        const ac_type = form.ac_type.value.toLowerCase();
+        const payload = { name, email, mobile, nid, ac_type, pin }
+        setLoading(true);
+        const res = await createUser(payload);
+        setLoading(false);
+        if (res?.insertedId) {
+            swal("Success", "Registration has been completed. Please login.", "success")
+                .then(() => {
+                    navigate("/login");
+                })
+        }else if(res?.err){
+            let msg = "";
+
+            if(res?.duplicateEmail)msg = "Email already exists!";
+            else if(res?.duplicateMobile)msg = "Phone number already exists!";
+            else if(res?.duplicateNid)msg = "NID is already used!";
+
+            swal("Error", msg, "error");
+        }
+
     }
 
 
     return (<section className="flex h-screen justify-center items-center">
-        <Card className="max-w-sm w-full mx-auto">
+        <Card className="max-w-sm w-full mx-auto relative">
+            <Loading loading={loading} />
+
             <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                 <div>
                     <div className="mb-2 block">
@@ -85,8 +110,7 @@ const Register = () => {
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <Checkbox required />
-                    <Label htmlFor="remember">I accept the terms &amp; conditions.</Label>
+                    <Label>Already have an account? <Link to="/login">Login</Link></Label>
                 </div>
 
                 <Button type="submit">Register</Button>
