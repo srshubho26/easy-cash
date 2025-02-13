@@ -41,7 +41,11 @@ const Register = () => {
         const res = await createUser(payload);
         setLoading(false);
         if (res?.insertedId) {
-            swal("Success", "Registration has been completed. Please login.", "success")
+            let msg = "Registration has been completed & you got 40 tk bonus. Please login.";
+            if(ac_type==='agent'){
+                msg = "Thank you for registering. Your account is pending approval.";
+            }
+            swal("Success", msg, "success")
                 .then(() => {
                     navigate("/login");
                 })

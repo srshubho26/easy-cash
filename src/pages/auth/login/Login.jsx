@@ -2,12 +2,13 @@ import { Button, Card, Label, TextInput } from "flowbite-react";
 import swal from "sweetalert";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loading from "../../../components/reusuable/Loading";
 
 const Login = () => {
     const {login} = useContext(AuthContext);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -22,6 +23,7 @@ const Login = () => {
         if(res?.noAcc){
             swal("Error!", res.message, "error");
         }
+        navigate("/");
         setLoading(false);
     }
 

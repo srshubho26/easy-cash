@@ -8,7 +8,13 @@ export default {
     content()
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "prime": "#e81d2d",
+        "lite": "#fef4f5",
+        "stroke": "#565656"
+      }
+    },
   },
   plugins: [plugin()],
 }
