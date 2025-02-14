@@ -10,10 +10,10 @@ import useAxiosWithCredentials from "../../hooks/useAxiosWithCredentials";
 const linkCss = "flex items-center gap-3 border border-prime rounded-md px-4 py-2 hover:bg-prime hover:text-lite transition-colors";
 
 const Home = () => {
-    const { logout } = useContext(AuthContext);
+    const { logout, user } = useContext(AuthContext);
 
     const [checkBalance, setCheckBalance] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [balance, setBalance] = useState(0);
     const axiosSecure = useAxiosWithCredentials();
 
@@ -42,7 +42,7 @@ const Home = () => {
                 onClick={handleCheckBalance}
             >
                 <MdOutlineAccountBalanceWallet className="text-4xl" />
-                
+
                 <span>
                     {loading ? "Loading..." : <>{checkBalance ? `tk. ${balance}` : 'Balance Inquiry'}</>}
                 </span>
@@ -50,20 +50,22 @@ const Home = () => {
         </div>
 
         <div className="text-xl w-full border border-stroke rounded-md p-5 grid grid-cols-3 gap-5 text-center text-prime font-semibold">
-            <Link className={linkCss} to="/send-money">
-                <FaMoneyBillTransfer className="text-5xl" />
-                <span>Send Money</span>
-            </Link>
+            {user?.ac_type === 'user' ? <>
+                <Link className={linkCss} to="/send-money">
+                    <FaMoneyBillTransfer className="text-5xl" />
+                    <span>Send Money</span>
+                </Link>
 
-            <Link className={linkCss} to="/cash-in">
-                <GiCash className="text-5xl" />
-                <span>Cash In</span>
-            </Link>
-
-            <Link className={linkCss} to="/cash-out">
-                <GiExpense className="text-5xl" />
-                <span>Cash Out</span>
-            </Link>
+                <Link className={linkCss} to="/cash-out">
+                    <GiExpense className="text-5xl" />
+                    <span>Cash Out</span>
+                </Link>
+            </> : <>
+                <Link className={linkCss} to="/cash-in">
+                    <GiCash className="text-5xl" />
+                    <span>Cash In</span>
+                </Link>
+            </>}
 
             <button className={linkCss} onClick={logout}>
                 <FiLogOut className="text-5xl" />

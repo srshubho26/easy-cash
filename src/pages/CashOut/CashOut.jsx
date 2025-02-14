@@ -3,7 +3,7 @@ import { AuthContext } from "../../providers/AuthProvider";
 import swal from "sweetalert";
 import Loading from "../../components/reusuable/Loading";
 import { Button, Label, TextInput } from "flowbite-react";
-import TransInfoModal from "./parts/TransInfoModal";
+import TransInfoModal from "../../components/reusuable/TransInfoModal";
 
 const theme = {
     "color": {
@@ -44,7 +44,6 @@ const CashOut = () => {
         setLoading(false);
 
         if (res?.acknowledged) {
-            // swal("Success", `Transaction ID: ${res?.trxId}`, "success");
             setOpenModal(true);
             setModalDetails({trxId: res?.trxId, agent, amount});
             form.reset();
@@ -82,7 +81,7 @@ const CashOut = () => {
                 <TextInput name="pin" placeholder="Enter your pin" type="password" minLength={5} maxLength={5} required />
             </div>
 
-            <Button theme={theme} color="prime" className="transition-colors" type="submit">Send</Button>
+            <Button theme={theme} color="prime" className="transition-colors" type="submit">Cash Out</Button>
         </form>
 
         <TransInfoModal openModal={openModal} setOpenModal={setOpenModal} details={modalDetails}/>

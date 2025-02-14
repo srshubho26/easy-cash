@@ -20,8 +20,8 @@ const TransInfoModal = ({ openModal, setOpenModal, details }) => {
                     <span>{details?.amount} tk.</span>
                 </p>
                 <p className='flex gap-3'>
-                    <strong>Agent: </strong>
-                    <span>{details?.agent}</span>
+                    <strong>{details?.agent ? 'Agent' : 'User'}: </strong>
+                    <span>{details?.agent || details?.user}</span>
                 </p>
 
                 <Tooltip content={details?.trxId}>

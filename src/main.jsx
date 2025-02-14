@@ -11,6 +11,7 @@ import UserRoute from './secureRoutes/UserRoute'
 import SendMoney from './pages/SendMoney/SendMoney'
 import CashIn from './pages/CashIn/CashIn'
 import CashOut from './pages/CashOut/CashOut'
+import AgentRoute from './secureRoutes/AgentRoute'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -31,9 +32,9 @@ const router = createBrowserRouter([
       {
         path: '/cash-in',
         element: <PrivateRoute>
-          <UserRoute>
+          <AgentRoute>
             <CashIn />
-          </UserRoute>
+          </AgentRoute>
         </PrivateRoute>
       },
       {
