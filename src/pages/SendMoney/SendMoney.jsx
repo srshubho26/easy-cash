@@ -57,7 +57,7 @@ const SendMoney = () => {
                 <div className="mb-2 block">
                     <Label value="Enter recipient's phone no." />
                 </div>
-                <TextInput id="email1" name="recipient" type="text" minLength={11} maxLength={11} placeholder="Recipient's mobile" required />
+                <TextInput name="recipient" type="text" minLength={11} maxLength={11} placeholder="Recipient's mobile" required />
             </div>
 
             <div>

@@ -22,7 +22,7 @@ const Home = () => {
             <span>Cash In</span>
             </Link>
 
-            <Link className={linkCss}>
+            <Link className={linkCss} to="/cash-out">
             <GiExpense className="text-5xl" />
             <span>Cash Out</span>
             </Link>

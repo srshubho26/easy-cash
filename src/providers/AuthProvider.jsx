@@ -46,7 +46,12 @@ const AuthProvider = ({ children }) => {
         return res.data;
     }
 
-    return (<AuthContext.Provider value={{ createUser, user, login, logout, sendMoney }}>
+    const cashOut = async payload=>{
+        const res = await axiosSecure.post("/cash-out", payload);
+        return res.data;
+    }
+
+    return (<AuthContext.Provider value={{ createUser, user, login, logout, sendMoney, cashOut }}>
         <div className='w-full h-screen relative bg-lite'>
             <Loading loading={loading} />
             {!loading && children}

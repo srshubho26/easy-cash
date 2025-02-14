@@ -20,11 +20,17 @@ const Login = () => {
 
         const payload = { email, pin }
         const res = await login(payload);
+        setLoading(false);
         if(res?.noAcc){
             swal("Error!", res.message, "error");
+            return;
+        }
+
+        if(res?.isUnderReview){
+            swal("Wait!", res.message, "warning");
+            return;
         }
         navigate("/");
-        setLoading(false);
     }
 
 
