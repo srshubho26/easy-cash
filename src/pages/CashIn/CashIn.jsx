@@ -2,10 +2,9 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import swal from "sweetalert";
 import Loading from "../../components/reusuable/Loading";
-import { Button, Label, TextInput, Tooltip } from "flowbite-react";
+import { Button, Label, TextInput } from "flowbite-react";
 import TransInfoModal from "../../components/reusuable/TransInfoModal";
-import { Link } from "react-router-dom";
-import { FaHome } from "react-icons/fa";
+import HomeBtn from "../../components/reusuable/HomeBtn";
 
 const theme = {
     "color": {
@@ -59,11 +58,7 @@ const CashIn = () => {
 
     return (<section className="min-h-screen max-w-lg mx-auto w-full flex flex-col justify-center items-center">
         <div className="w-full mb-5">
-        <Tooltip content="Go to homepage">
-            <Link to="/" className="text-4xl border border-prime rounded-md p-3 block text-prime hover:text-lite hover:bg-prime transition-colors">
-                <FaHome />
-            </Link>
-        </Tooltip>
+            <HomeBtn />
         </div>
 
         <form onSubmit={handleSubmit} className="flex w-full border border-stroke rounded-md p-5 flex-col gap-4 relative">

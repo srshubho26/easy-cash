@@ -26,7 +26,7 @@ const Login = () => {
             return;
         }
 
-        if(res?.isUnderReview){
+        if(res?.restricted){
             swal("Wait!", res.message, "warning");
             return;
         }

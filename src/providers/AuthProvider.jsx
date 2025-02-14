@@ -57,7 +57,7 @@ const AuthProvider = ({ children }) => {
     }
 
     return (<AuthContext.Provider value={{ createUser, user, login, logout, sendMoney, cashIn, cashOut }}>
-        <div className='w-full h-screen relative bg-lite'>
+        <div className='w-full h-screen relative bg-lite px-2'>
             <Loading loading={loading} />
             {!loading && children}
         </div>

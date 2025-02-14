@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { FaMoneyBillTransfer, FaUsersBetweenLines, FaUsersGear } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
 import { GiCash, GiExpense } from "react-icons/gi";
 import { Link } from "react-router-dom";
@@ -50,7 +50,7 @@ const Home = () => {
         </div>
 
         <div className="text-xl w-full border border-stroke rounded-md p-5 grid grid-cols-3 gap-5 text-center text-prime font-semibold">
-            {user?.ac_type === 'user' ? <>
+            {user?.ac_type === 'user' && <>
                 <Link className={linkCss} to="/send-money">
                     <FaMoneyBillTransfer className="text-5xl" />
                     <span>Send Money</span>
@@ -60,10 +60,21 @@ const Home = () => {
                     <GiExpense className="text-5xl" />
                     <span>Cash Out</span>
                 </Link>
-            </> : <>
-                <Link className={linkCss} to="/cash-in">
-                    <GiCash className="text-5xl" />
-                    <span>Cash In</span>
+            </>}
+            {user?.ac_type === 'agent' && <Link className={linkCss} to="/cash-in">
+                <GiCash className="text-5xl" />
+                <span>Cash In</span>
+            </Link>}
+             
+            {user?.ac_type === 'admin' && <>
+                <Link className={linkCss} to="/users">
+                    <FaUsersBetweenLines className="text-5xl" />
+                    <span>Users</span>
+                </Link>
+
+                <Link className={linkCss} to="/agents">
+                    <FaUsersGear className="text-5xl" />
+                    <span>Agents</span>
                 </Link>
             </>}
 

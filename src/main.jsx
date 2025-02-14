@@ -12,6 +12,10 @@ import SendMoney from './pages/SendMoney/SendMoney'
 import CashIn from './pages/CashIn/CashIn'
 import CashOut from './pages/CashOut/CashOut'
 import AgentRoute from './secureRoutes/AgentRoute'
+import AdminRoute from './secureRoutes/AdminRoute'
+import Users from './pages/Users/Users'
+import Agents from './pages/Agents/Agents'
+import Transactions from './pages/Transactions/Transactions'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -43,6 +47,30 @@ const router = createBrowserRouter([
           <UserRoute>
             <CashOut />
           </UserRoute>
+        </PrivateRoute>
+      },
+      {
+        path: '/users',
+        element: <PrivateRoute>
+          <AdminRoute>
+            <Users />
+          </AdminRoute>
+        </PrivateRoute>
+      },
+      {
+        path: '/agents',
+        element: <PrivateRoute>
+          <AdminRoute>
+            <Agents />
+          </AdminRoute>
+        </PrivateRoute>
+      },
+      {
+        path: '/transactions/:email',
+        element: <PrivateRoute>
+          <AdminRoute>
+            <Transactions />
+          </AdminRoute>
         </PrivateRoute>
       },
       {
