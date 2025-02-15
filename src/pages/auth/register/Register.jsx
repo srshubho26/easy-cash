@@ -1,14 +1,24 @@
 import { Button, Card, Label, Select, TextInput } from "flowbite-react";
 import swal from "sweetalert";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import Loading from "../../../components/reusuable/Loading";
 import { Link, useNavigate } from "react-router-dom";
 
+const theme = {
+    "color": {
+        "prime": "border border-prime bg-transparent hover:bg-prime text-prime hover:text-lite"
+    }
+}
+
 const Register = () => {
-    const { createUser } = useContext(AuthContext);
+    const { createUser, user } = useContext(AuthContext);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        if(user)navigate("/");
+    }, [user, navigate])
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -50,19 +60,14 @@ const Register = () => {
                     navigate("/login");
                 })
         }else if(res?.err){
-            let msg = "";
-
-            if(res?.duplicateEmail)msg = "Email already exists!";
-            else if(res?.duplicateMobile)msg = "Phone number already exists!";
-            else if(res?.duplicateNid)msg = "NID is already used!";
-
-            swal("Error", msg, "error");
+            swal("Error", res?.msg, "error");
         }
 
     }
 
 
-    return (<section className="flex h-screen justify-center items-center">
+    return (<section className="flex flex-col justify-center items-center py-5">
+        <h2 className="mb-5 text-prime font-bold text-3xl">Register - Easy Cash</h2>
         <Card className="max-w-sm w-full mx-auto relative">
             <Loading loading={loading} />
 
@@ -117,7 +122,7 @@ const Register = () => {
                     <Label>Already have an account? <Link to="/login">Login</Link></Label>
                 </div>
 
-                <Button type="submit">Register</Button>
+                <Button theme={theme} color="prime" className="transition-colors" type="submit">Register</Button>
             </form>
         </Card>
     </section>);

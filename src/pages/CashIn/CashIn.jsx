@@ -57,9 +57,11 @@ const CashIn = () => {
     }
 
     return (<section className="min-h-screen max-w-lg mx-auto w-full flex flex-col justify-center items-center">
-        <div className="w-full mb-5">
-            <HomeBtn />
-        </div>
+            <div className="w-full mb-5 flex justify-between items-center gap-2">
+                <h2 className="text-prime font-bold text-2xl">Cash In</h2>
+    
+                <HomeBtn />
+            </div>
 
         <form onSubmit={handleSubmit} className="flex w-full border border-stroke rounded-md p-5 flex-col gap-4 relative">
             <Loading loading={loading} />
@@ -68,7 +70,7 @@ const CashIn = () => {
                 <div className="mb-2 block">
                     <Label value="Enter user's phone no." />
                 </div>
-                <TextInput name="user" type="text" minLength={11} maxLength={11} placeholder="Agent's mobile" required />
+                <TextInput name="user" type="text" minLength={11} maxLength={11} placeholder="User's mobile" required />
             </div>
 
             <div>

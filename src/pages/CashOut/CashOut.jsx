@@ -4,6 +4,7 @@ import swal from "sweetalert";
 import Loading from "../../components/reusuable/Loading";
 import { Button, Label, TextInput } from "flowbite-react";
 import TransInfoModal from "../../components/reusuable/TransInfoModal";
+import HomeBtn from "../../components/reusuable/HomeBtn";
 
 const theme = {
     "color": {
@@ -28,7 +29,7 @@ const CashOut = () => {
             return;
         }
 
-        const charge = amount * (1.5/100)
+        const charge = (amount * (1.5 / 100)).toFixed(2);
         const isConfirmed = await swal({
             title: "Are you sure?",
             text: `Your are going to cash out ${amount}tk. It will charge tk. ${charge}`,
@@ -45,7 +46,7 @@ const CashOut = () => {
 
         if (res?.acknowledged) {
             setOpenModal(true);
-            setModalDetails({trxId: res?.trxId, agent, amount});
+            setModalDetails({ trxId: res?.trxId, agent, charge, amount });
             form.reset();
             return;
         }
@@ -56,8 +57,14 @@ const CashOut = () => {
         }
     }
 
-    return (<section className="min-h-screen w-full flex justify-center items-center">
-        <form onSubmit={handleSubmit} className="flex max-w-lg w-full border border-stroke rounded-md p-5 flex-col gap-4 relative">
+    return (<section className="min-h-screen max-w-lg mx-auto w-full flex flex-col justify-center items-center">
+        <div className="w-full mb-5 flex justify-between items-center gap-2">
+            <h2 className="text-prime font-bold text-2xl">Cash Out</h2>
+
+            <HomeBtn />
+        </div>
+
+        <form onSubmit={handleSubmit} className="flex w-full border border-stroke rounded-md p-5 flex-col gap-4 relative">
             <Loading loading={loading} />
 
             <div>
@@ -84,7 +91,7 @@ const CashOut = () => {
             <Button theme={theme} color="prime" className="transition-colors" type="submit">Cash Out</Button>
         </form>
 
-        <TransInfoModal openModal={openModal} setOpenModal={setOpenModal} details={modalDetails}/>
+        <TransInfoModal openModal={openModal} setOpenModal={setOpenModal} details={modalDetails} />
     </section>);
 };
 

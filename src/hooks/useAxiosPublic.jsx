@@ -2,7 +2,7 @@ import axios from 'axios';
 import swal from 'sweetalert';
 
 const axiosPublic = axios.create({
-    baseURL : 'http://localhost:5000'
+    baseURL : 'https://easy-cash-server-six.vercel.app'
 });
 
 axiosPublic.interceptors.response.use(null, () => {

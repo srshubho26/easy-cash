@@ -1,8 +1,8 @@
 import { Button, Modal } from 'flowbite-react';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import useAxiosWithCredentials from '../../../hooks/useAxiosWithCredentials';
-import Loading from '../../../components/reusuable/Loading';
+import useAxiosWithCredentials from '../../hooks/useAxiosWithCredentials';
+import Loading from './Loading';
 import swal from 'sweetalert';
 
 const theme = {
@@ -16,16 +16,17 @@ const ViewAccount = ({ openModal, setOpenModal, user, refetch }) => {
     const axiosSecure = useAxiosWithCredentials();
     const isActive = user?.status === 'active';
     const isPending = user?.status === 'pending';
+    const isRejected = user?.status === 'rejected';
 
-    const handleStatus = async () => {
+    const handleStatus = async (act = '') => {
         setLoading(true);
         const action = {
             email: user?.email,
-            action: isActive ? 'blocked' : isPending ? 'active' : 'active'
+            action: act || (isActive ? 'blocked' : isPending ? 'active' : 'active')
         }
 
         const res = await axiosSecure.patch("/account-restriction", action);
-        console.log(res.data)
+
         if (res?.data?.modifiedCount) {
             swal("Success", "Account modification completed", "success")
                 .then(() => {
@@ -34,7 +35,6 @@ const ViewAccount = ({ openModal, setOpenModal, user, refetch }) => {
                 })
         }
         setLoading(false);
-
     }
 
     return (
@@ -64,15 +64,15 @@ const ViewAccount = ({ openModal, setOpenModal, user, refetch }) => {
                             <strong>NID: </strong>
                             <span>{user?.nid}</span>
                         </p>
-                        
+
                         <p className='flex gap-3'>
                             <strong>Current Balance: </strong>
-                            <span>{user?.balance}tk.</span>
+                            <span>{parseFloat(user?.balance).toFixed(2)}tk.</span>
                         </p>
 
-                        {user?.income>=0 && <p className='flex gap-3'>
+                        {user?.income >= 0 && <p className='flex gap-3'>
                             <strong>Income: </strong>
-                            <span>{user?.income}tk.</span>
+                            <span>{parseFloat(user?.income).toFixed(2)}tk.</span>
                         </p>}
                     </div>
                 </Modal.Body>
@@ -86,9 +86,13 @@ const ViewAccount = ({ openModal, setOpenModal, user, refetch }) => {
                 </Button>
 
 
-                <Button theme={theme} color="prime" className="transition-colors" onClick={handleStatus}>
+                {!isRejected && <Button theme={theme} color="prime" className="transition-colors" onClick={() => handleStatus()}>
                     {isPending ? "Approve Account" : isActive ? 'Block Account' : 'Unblock Account'}
-                </Button>
+                </Button>}
+
+                {isPending && <Button theme={theme} color="prime" className="transition-colors" onClick={() => handleStatus('rejected')}>
+                    Reject Account
+                </Button>}
             </Modal.Footer>
         </Modal>
     );

@@ -19,6 +19,12 @@ const TransInfoModal = ({ openModal, setOpenModal, details }) => {
                     <strong>Amount: </strong>
                     <span>{details?.amount} tk.</span>
                 </p>
+
+                <p className='flex gap-3'>
+                    <strong>Charge: </strong>
+                    <span>{details?.charge || '0'} tk.</span>
+                </p>
+
                 <p className='flex gap-3'>
                     <strong>{details?.agent ? 'Agent' : 'User'}: </strong>
                     <span>{details?.agent || details?.user}</span>

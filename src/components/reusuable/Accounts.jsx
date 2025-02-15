@@ -5,14 +5,14 @@ import Loading from './Loading';
 import HomeBtn from './HomeBtn';
 import swal from 'sweetalert';
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, TextInput } from 'flowbite-react';
-import ViewAccount from '../../pages/Users/parts/ViewAccount';
+import ViewAccount from './ViewAccount';
 import { Link, useLocation } from 'react-router-dom';
 
 const actionBtnCss = "border border-prime rounded-md text-prime font-semibold px-5 py-2 hover:bg-prime hover:text-lite transition-colors";
 
-const Accounts = ({ ac_type = "user" }) => {
+const Accounts = ({ ac_type = "user", status = "", title = "" }) => {
     const [searchByPhone, setSearchByPhone] = useState("");
-    const { accounts, loading, loadAccounts } = useAccounts(ac_type, searchByPhone);
+    const { accounts, loading, loadAccounts } = useAccounts(ac_type, searchByPhone, status);
     const [openModal, setOpenModal] = useState(false);
     const [details, setDetails] = useState(null);
     const { pathname } = useLocation();
@@ -36,18 +36,22 @@ const Accounts = ({ ac_type = "user" }) => {
         <Loading loading={loading} />
 
         {!loading && <>
-            <div className="w-full mb-5 flex justify-between items-center">
+            <h2 className="text-prime font-bold text-3xl mb-10 capitalize">{title}</h2>
+
+            <div className="w-full mb-5 flex flex-wrap gap-2 justify-between items-center">
                 <HomeBtn />
 
-                <form className='flex gap-2 grow max-w-md' onSubmit={handleSearch}>
+                <form className='flex gap-2 flex-wrap grow max-w-md' onSubmit={handleSearch}>
                     <TextInput name="phone" minLength={11} maxLength={11} className='grow' placeholder='Search By Phone Number' defaultValue={searchByPhone} />
                     <button className={actionBtnCss}>Search</button>
-                    <button className={actionBtnCss} type='button' onClick={()=>setSearchByPhone("")}>Load All</button>
+                    <button className={actionBtnCss} type='button' onClick={() => setSearchByPhone("")}>Load All</button>
                 </form>
             </div>
 
             <div className="overflow-x-auto w-full border border-stroke rounded-md">
-                {!accounts?.length ? <h3 className='text-2xl text-prime text-center px-2 py-10'>No Account Available!</h3> : <Table>
+                {!accounts?.length ? <h3 className='text-2xl text-prime text-center px-2 py-5'
+                >No Account Available!
+                </h3> : <Table>
                     <TableHead>
                         <TableHeadCell></TableHeadCell>
                         <TableHeadCell>name</TableHeadCell>
@@ -58,10 +62,10 @@ const Accounts = ({ ac_type = "user" }) => {
                     <TableBody className="divide-y">
                         {accounts?.map((user, i) => (<TableRow key={user._id} className="even:bg-white text-[#000]">
                             <TableCell>{i + 1}</TableCell>
-                            <TableCell>{user.name}</TableCell>
+                            <TableCell className='text-nowrap'>{user.name}</TableCell>
                             <TableCell>{user.mobile}</TableCell>
                             <TableCell className="uppercase font-semibold">{user.status}</TableCell>
-                            <TableCell>
+                            <TableCell className='text-nowrap'>
                                 <button
                                     className={actionBtnCss}
                                     onClick={() => handleView(user)}
@@ -88,7 +92,9 @@ const Accounts = ({ ac_type = "user" }) => {
 };
 
 Accounts.propTypes = {
-    ac_type: PropTypes.string
+    ac_type: PropTypes.string,
+    title: PropTypes.string,
+    status: PropTypes.string
 };
 
 export default Accounts;

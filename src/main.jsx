@@ -16,10 +16,18 @@ import AdminRoute from './secureRoutes/AdminRoute'
 import Users from './pages/Users/Users'
 import Agents from './pages/Agents/Agents'
 import Transactions from './pages/Transactions/Transactions'
+import MyTransactions from './pages/MyTransactions/MyTransactions'
+import ApprovalRequests from './pages/ApprovalRequests/ApprovalRequests'
+import RequestMoney from './pages/RequestMoney/RequestMoney'
+import MoneyRequests from './pages/MoneyRequests/MoneyRequests'
+import Withdraw from './pages/Withdraw/Withdraw'
+import WithdrawRequests from './pages/WithdrawRequests/WithdrawRequests'
+import Error404 from './pages/Error404/Error404'
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Main />,
+    errorElement: <Error404 />,
     children: [
       {
         path: '/',
@@ -66,11 +74,57 @@ const router = createBrowserRouter([
         </PrivateRoute>
       },
       {
+        path: '/withdraw',
+        element: <PrivateRoute>
+          <AgentRoute>
+            <Withdraw />
+          </AgentRoute>
+        </PrivateRoute>
+      },
+      {
+        path: '/money-requests',
+        element: <PrivateRoute>
+          <AdminRoute>
+            <MoneyRequests />
+          </AdminRoute>
+        </PrivateRoute>
+      },
+      {
+        path: '/withdraw-requests',
+        element: <PrivateRoute>
+          <AdminRoute>
+            <WithdrawRequests />
+          </AdminRoute>
+        </PrivateRoute>
+      },
+      {
+        path: '/request-money',
+        element: <PrivateRoute>
+          <AgentRoute>
+            <RequestMoney />
+          </AgentRoute>
+        </PrivateRoute>
+      },
+      {
         path: '/transactions/:email',
         element: <PrivateRoute>
           <AdminRoute>
             <Transactions />
           </AdminRoute>
+        </PrivateRoute>
+      },
+      {
+        path: '/approval-requests',
+        element: <PrivateRoute>
+          <AdminRoute>
+            <ApprovalRequests />
+          </AdminRoute>
+        </PrivateRoute>
+      },
+      {
+        path: '/my-transactions',
+        element: <PrivateRoute>
+          <MyTransactions />
         </PrivateRoute>
       },
       {

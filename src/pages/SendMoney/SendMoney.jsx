@@ -3,6 +3,8 @@ import { useContext, useState } from "react";
 import swal from "sweetalert";
 import { AuthContext } from "../../providers/AuthProvider";
 import Loading from "../../components/reusuable/Loading";
+import HomeBtn from "../../components/reusuable/HomeBtn";
+import TransInfoModal from "../../components/reusuable/TransInfoModal";
 
 const theme = {
     "color": {
@@ -13,6 +15,8 @@ const theme = {
 const SendMoney = () => {
     const { sendMoney } = useContext(AuthContext);
     const [loading, setLoading] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [modalDetails, setModalDetails] = useState(null);
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -26,7 +30,7 @@ const SendMoney = () => {
 
         const isConfirmed = await swal({
             title: "Are you sure?",
-            text: `Your are going to send ${amount}tk. ${amount<100 ? '' : 'It will charge 5 tk.'}`,
+            text: `Your are going to send ${amount}tk. ${amount < 100 ? '' : 'It will charge 5 tk.'}`,
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -38,8 +42,10 @@ const SendMoney = () => {
 
         setLoading(false);
 
-        if(res?.acknowledged){
-            swal("Success", `Transaction ID: ${res?.trxId}`, "success");
+        if (res?.acknowledged) {
+            setOpenModal(true);
+            setModalDetails({ trxId: res?.trxId, user:recipient, amount });
+            form.reset();
             return;
         }
 
@@ -49,8 +55,14 @@ const SendMoney = () => {
         }
     }
 
-    return (<section className="min-h-screen w-full flex justify-center items-center">
-        <form onSubmit={handleSubmit} className="flex max-w-lg w-full border border-stroke rounded-md p-5 flex-col gap-4 relative">
+    return (<section className="min-h-screen max-w-lg mx-auto w-full flex flex-col justify-center items-center">
+        <div className="w-full mb-5 flex justify-between items-center gap-2">
+            <h2 className="text-prime font-bold text-2xl">Send Money</h2>
+
+            <HomeBtn />
+        </div>
+
+        <form onSubmit={handleSubmit} className="flex w-full border border-stroke rounded-md p-5 flex-col gap-4 relative">
             <Loading loading={loading} />
 
             <div>
@@ -69,6 +81,7 @@ const SendMoney = () => {
 
             <Button theme={theme} color="prime" className="transition-colors" type="submit">Send</Button>
         </form>
+        <TransInfoModal openModal={openModal} setOpenModal={setOpenModal} details={modalDetails} />
     </section>);
 };
 
