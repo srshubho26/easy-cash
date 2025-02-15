@@ -24,12 +24,13 @@ const Accounts = ({ ac_type = "user", status = "", title = "" }) => {
 
     const handleSearch = async e => {
         e.preventDefault();
+        const phoneStr = e.target.phone.value;
         const phone = parseInt(e.target.phone.value);
         if (isNaN(phone)) {
             swal("Error", "Invalid Phone Number!", "error");
             return;
         }
-        setSearchByPhone(phone);
+        setSearchByPhone(phoneStr);
     }
 
     return (<section className="max-w-screen-md mx-auto min-h-screen flex flex-col justify-center items-center relative">
