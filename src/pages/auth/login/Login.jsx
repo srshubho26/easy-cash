@@ -25,7 +25,7 @@ const Login = () => {
 
         const isConfirmed = await swal({
             title: "Warning!",
-            text: 'If you are previously logged in to somewhere else, you will be logged out from there.',
+            text: 'If you are previously logged into somewhere else, you will be logged out from there.',
             icon: "warning",
             buttons: true,
             dangerMode: true,
