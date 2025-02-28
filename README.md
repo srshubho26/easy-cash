@@ -43,4 +43,7 @@ Easy cash is a simple MFS app built using React, Express and MongoDB.
 - PIN: 12345
 
 ## Live Link
-easy-cash-19352.web.app
+http://easy-cash-19352.web.app
+
+## Backend Link
+https://github.com/srshubho26/easy-cash-server
